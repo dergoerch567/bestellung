@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestellformular</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 20px auto; padding: 15px; background: #f9f9f9; color: #333; }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        .box { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 14px; }
+        input[type="text"], input[type="tel"], input[type="number"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+        .item-name { font-weight: bold; font-size: 15px; }
+        .price-tag { font-size: 14px; color: #666; text-align: center; }
+        .total-item { font-weight: bold; text-align: right; font-size: 15px; }
+        .sum-box { text-align: right; font-size: 18px; font-weight: bold; color: #2c3e50; margin-top: 15px; border-top: 2px solid #2c3e50; padding-top: 10px; }
+        .btn { display: block; width: 100%; background: #25D366; color: white; text-align: center; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: none; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .btn:hover { background: #128C7E; }
+    </style>
+</head>
+<body>
+
+    <h2>📝 Bestellformular</h2>
+
+    <!-- Kundendaten -->
+    <div class="box">
+        <label for="name">Name / Absender *</label>
+        <input type="text" id="name" placeholder="Dein vollständiger Name" required>
+
+        <label for="telefon">Telefonnummer *</label>
+        <input type="tel" id="telefon" placeholder="Für Rückfragen" required>
+    </div>
+
+    <!-- Artikelübersicht -->
+    <div class="box">
+        <div class="grid" style="border-bottom: 2px solid #ccc; font-weight: bold; padding-bottom: 5px;">
+            <div>Artikel</div>
+            <div style="text-align: center;">Menge</div>
+            <div style="text-align: right;">Gesamt</div>
+        </div>
+
+        <!-- Artikel 1: Orangen -->
+        <div class="grid">
+            <div class="item-name">Orangen (1 kg)<br><span class="price-tag">3,00 € / kg</span></div>
+            <div><input type="number" id="qty1" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot1">0,00</span> €</div>
+        </div>
+
+        <!-- Artikel 2: Mandarinen -->
+        <div class="grid">
+            <div class="item-name">Mandarinen (1 kg)<br><span class="price-tag">3,25 € / kg</span></div>
+            <div><input type="number" id="qty2" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot2">0,00</span> €</div>
+        </div>
+
+        <!-- Artikel 3: Zitronen -->
+        <div class="grid">
+            <div class="item-name">Zitronen (1 kg)<br><span class="price-tag">3,50 € / kg</span></div>
+            <div><input type="number" id="qty3" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot3">0,00</span> €</div>
+        </div>
+
+        <!-- Artikel 4: Zitronenhonig -->
+        <div class="grid">
+            <div class="item-name">Zitronenhonig (300 g)<br><span class="price-tag">5,50 € / Glas</span></div>
+            <div><input type="number" id="qty4" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot4">0,00</span> €</div>
+        </div>
+
+        <!-- Artikel 5: Orangenhonig -->
+        <div class="grid">
+            <div class="item-name">Orangenhonig (300 g)<br><span class="price-tag">5,50 € / Glas</span></div>
+            <div><input type="number" id="qty5" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot5">0,00</span> €</div>
+        </div>
+
+        <!-- Artikel 6: Eukalyptushonig -->
+        <div class="grid">
+            <div class="item-name">Eukalyptushonig (300 g)<br><span class="price-tag">5,50 € / Glas</span></div>
+            <div><input type="number" id="qty6" min="0" value="0" oninput="calculate()"></div>
+            <div class="total-item"><span id="tot6">0,00</span> €</div>
+        </div>
+
+        <!-- Gesamtsumme -->
+        <div class="sum-box">
+            Endsumme: <span id="grandTotal">0,00</span> €
+        </div>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <button class="btn" onclick="sendWhatsApp()">🛒 Bestellen per WhatsApp</button>
+
+    <script>
+        // Feste Preise definieren
+        const p1 = 3.00; // Orangen
+        const p2 = 3.25; // Mandarinen
+        const p3 = 3.50; // Zitronen
+        const p4 = 5.50; // Zitronenhonig
+        const p5 = 5.50; // Orangenhonig
+        const p6 = 5.50; // Eukalyptushonig
+
+        function calculate() {
+            let q1 = parseFloat(document.getElementById('qty1').value) || 0;
+            let q2 = parseFloat(document.getElementById('qty2').value) || 0;
+            let q3 = parseFloat(document.getElementById('qty3').value) || 0;
+            let q4 = parseFloat(document.getElementById('qty4').value) || 0;
+            let q5 = parseFloat(document.getElementById('qty5').value) || 0;
+            let q6 = parseFloat(document.getElementById('qty6').value) || 0;
+
+            let t1 = q1 * p1;
+            let t2 = q2 * p2;
+            let t3 = q3 * p3;
+            let t4 = q4 * p4;
+            let t5 = q5 * p5;
+            let t6 = q6 * p6;
+
+            document.getElementById('tot1').innerText = t1.toFixed(2).replace('.', ',');
+            document.getElementById('tot2').innerText = t2.toFixed(2).replace('.', ',');
+            document.getElementById('tot3').innerText = t3.toFixed(2).replace('.', ',');
+            document.getElementById('tot4').innerText = t4.toFixed(2).replace('.', ',');
+            document.getElementById('tot5').innerText = t5.toFixed(2).replace('.', ',');
+            document.getElementById('tot6').innerText = t6.toFixed(2).replace('.', ',');
+
+            let grand = t1 + t2 + t3 + t4 + t5 + t6;
+            document.getElementById('grandTotal').innerText = grand.toFixed(2).replace('.', ',');
+        }
+
+        function sendWhatsApp() {
+            let name = document.getElementById('name').value.trim();
+            let tel = document.getElementById('telefon').value.trim();
+
+            if(!name || !tel) {
+                alert("Bitte trage zuerst deinen Namen und deine Telefonnummer ein.");
+                return;
+            }
+
+            let q1 = parseFloat(document.getElementById('qty1').value) || 0;
+            let q2 = parseFloat(document.getElementById('qty2').value) || 0;
+            let q3 = parseFloat(document.getElementById('qty3').value) || 0;
+            let q4 = parseFloat(document.getElementById('qty4').value) || 0;
+            let q5 = parseFloat(document.getElementById('qty5').value) || 0;
+            let q6 = parseFloat(document.getElementById('qty6').value) || 0;
+
+            let text = ` Neue Bestellung \n\n`;
+            text += ` Absender: ${name}\n`;
+            text += ` Telefon: ${tel}\n\n`;
+            text += ` Bestellt:\n`;
+
+            let hatBestellung = false;
+
+            if(q1 > 0) { text += `• Orangen: ${q1} kg (Gesamt: ${(q1*p1).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+            if(q2 > 0) { text += `• Mandarinen: ${q2} kg (Gesamt: ${(q2*p2).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+            if(q3 > 0) { text += `• Zitronen: ${q3} kg (Gesamt: ${(q3*p3).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+            if(q4 > 0) { text += `• Zitronenhonig: ${q4} Glas (Gesamt: ${(q4*p4).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+            if(q5 > 0) { text += `• Orangenhonig: ${q5} Glas (Gesamt: ${(q5*p5).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+            if(q6 > 0) { text += `• Eukalyptushonig: ${q6} Glas (Gesamt: ${(q6*p6).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
+
+            if(!hatBestellung) {
+                alert("Bitte wähle bei mindestens einem Artikel eine Menge aus.");
+                return;
+            }
+
+            let grand = (q1*p1) + (q2*p2) + (q3*p3) + (q4*p4) + (q5*p5) + (q6*p6);
+            text += `\n Endsumme: ${grand.toFixed(2).replace('.', ',')} €`;
+
+            let url = "https://whatsapp.com" + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
