@@ -164,8 +164,15 @@
             let grand = (q1*p1) + (q2*p2) + (q3*p3) + (q4*p4) + (q5*p5) + (q6*p6);
             text += `\n Endsumme: ${grand.toFixed(2).replace('.', ',')} €`;
 
-            let url = "https://whatsapp.com" + encodeURIComponent(text);
-            window.open(url, '_blank');
+            // Trage hier deine echte WhatsApp-Nummer ein (z.B. 491701234567 für Deutschland)
+            const deineNummer = "4915750427363"; 
+
+            // 1. Der richtige WhatsApp-Link inklusive deiner Telefonnummer und dem Fragetext-Parameter (?text=)
+            let URL = "https://wa.me" + deineNummer + "?text=" + encodeURIComponent(text);
+
+            // 2. Der offizielle JavaScript-Befehl, um den Link in einem neuen Tab zu öffnen
+            window.open(URL, '_blank');
+
         }
     </script>
 </body>
