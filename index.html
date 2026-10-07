@@ -168,7 +168,7 @@
             let encodedText = encodeURIComponent(text);
             
             // HIER IST DER SCHRÄGSTRICH NUN ABSOLUT SICHER INTERN VERBAUT:
-            let URL = "https://wa.me" + deineNummer + "?text=" + encodedText;
+            let URL = "https://wa.me/" + deineNummer + "?text=" + encodedText;
 
             window.open(URL, '_blank');
         }
