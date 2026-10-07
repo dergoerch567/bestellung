@@ -92,7 +92,6 @@
     <button type="button" class="btn" onclick="sendWhatsApp()">🛒 Bestellen per WhatsApp</button>
 
     <script>
-        // Feste Preise definieren
         const p1 = 3.00; // Orangen
         const p2 = 3.25; // Mandarinen
         const p3 = 3.50; // Zitronen
@@ -127,7 +126,7 @@
         }
 
         function sendWhatsApp() {
-            // WICHTIG: Ersetze diese Nummer mit deiner echten Nummer! (z.B. "491701234567")
+            // WICHTIG: ÄNDERE HIER DIE NUMMER ZU DEINER NUMMER (z.B. "491701234567")
             const deineNummer = "49123456789"; 
 
             let name = document.getElementById('name').value.trim();
@@ -167,7 +166,7 @@
             text += `\n*Endsumme:* ${grandTotal.toFixed(2).replace('.', ',')} €`;
 
             let encodedText = encodeURIComponent(text);
-            let URL = "https://wa.me" + deineNummer + "?text=" + encodedText;
+            let URL = "https://wa.me" + 4915750427363 + "?text=" + encodedText;
 
             window.open(URL, '_blank');
         }
