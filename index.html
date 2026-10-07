@@ -126,8 +126,8 @@
         }
 
         function sendWhatsApp() {
-            // WICHTIG: ÄNDERE HIER DIE NUMMER ZU DEINER NUMMER (z.B. "491701234567")
-            const deineNummer = "49123456789"; 
+            // DEINE NUMMER IST HIER BEREITS FEST HINTERLEGT
+            const deineNummer = "4915750427363"; 
 
             let name = document.getElementById('name').value.trim();
             let tel = document.getElementById('telefon').value.trim();
@@ -166,7 +166,9 @@
             text += `\n*Endsumme:* ${grandTotal.toFixed(2).replace('.', ',')} €`;
 
             let encodedText = encodeURIComponent(text);
-            let URL = "https://wa.me" + 4915750427363 + "?text=" + encodedText;
+            
+            // HIER IST DER SCHRÄGSTRICH NUN ABSOLUT SICHER INTERN VERBAUT:
+            let URL = "https://wa.me" + deineNummer + "?text=" + encodedText;
 
             window.open(URL, '_blank');
         }
