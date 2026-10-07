@@ -89,7 +89,7 @@
     </div>
 
     <!-- WhatsApp Button -->
-    <button class="btn" onclick="sendWhatsApp()">🛒 Bestellen per WhatsApp</button>
+    <button type="button" class="btn" onclick="sendWhatsApp()">🛒 Bestellen per WhatsApp</button>
 
     <script>
         // Feste Preise definieren
@@ -127,6 +127,9 @@
         }
 
         function sendWhatsApp() {
+            // WICHTIG: Ersetze diese Nummer mit deiner echten Nummer! (z.B. "491701234567")
+            const deineNummer = "49123456789"; 
+
             let name = document.getElementById('name').value.trim();
             let tel = document.getElementById('telefon').value.trim();
 
@@ -142,12 +145,11 @@
             let q5 = parseFloat(document.getElementById('qty5').value) || 0;
             let q6 = parseFloat(document.getElementById('qty6').value) || 0;
 
-            let text = ` Neue Bestellung \n\n`;
-            text += ` Absender: ${name}\n`;
-            text += ` Telefon: ${tel}\n\n`;
-            text += ` Bestellt:\n`;
-
             let hatBestellung = false;
+            let text = `*Neue Bestellung* 📝\n\n`;
+            text += `*Absender:* ${name}\n`;
+            text += `*Telefon:* ${tel}\n\n`;
+            text += `*Bestellte Artikel:*\n`;
 
             if(q1 > 0) { text += `• Orangen: ${q1} kg (Gesamt: ${(q1*p1).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
             if(q2 > 0) { text += `• Mandarinen: ${q2} kg (Gesamt: ${(q2*p2).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
@@ -156,23 +158,18 @@
             if(q5 > 0) { text += `• Orangenhonig: ${q5} Glas (Gesamt: ${(q5*p5).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
             if(q6 > 0) { text += `• Eukalyptushonig: ${q6} Glas (Gesamt: ${(q6*p6).toFixed(2).replace('.', ',')} €)\n`; hatBestellung = true; }
 
-            if(!hatBestellung) {
-                alert("Bitte wähle bei mindestens einem Artikel eine Menge aus.");
+            if (!hatBestellung) {
+                alert("Bitte wähle mindestens einen Artikel aus, bevor du bestellst.");
                 return;
             }
 
-            let grand = (q1*p1) + (q2*p2) + (q3*p3) + (q4*p4) + (q5*p5) + (q6*p6);
-            text += `\n Endsumme: ${grand.toFixed(2).replace('.', ',')} €`;
+            let grandTotal = (q1*p1) + (q2*p2) + (q3*p3) + (q4*p4) + (q5*p5) + (q6*p6);
+            text += `\n*Endsumme:* ${grandTotal.toFixed(2).replace('.', ',')} €`;
 
-            // Trage hier deine echte WhatsApp-Nummer ein (z.B. 491701234567 für Deutschland)
-            const deineNummer = "4915750427363"; 
+            let encodedText = encodeURIComponent(text);
+            let URL = "https://wa.me" + deineNummer + "?text=" + encodedText;
 
-            // 1. Der richtige WhatsApp-Link inklusive deiner Telefonnummer und dem Fragetext-Parameter (?text=)
-            let URL = "https://wa.me" + deineNummer + "?text=" + encodeURIComponent(text);
-
-            // 2. Der offizielle JavaScript-Befehl, um den Link in einem neuen Tab zu öffnen
             window.open(URL, '_blank');
-
         }
     </script>
 </body>
